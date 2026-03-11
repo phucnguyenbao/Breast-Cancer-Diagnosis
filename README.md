@@ -26,7 +26,7 @@ BTL_ML/
 Notebook workflow:
 
 1. **Data Loading & Preprocessing**  
-   Load the breast cancer dataset, handle missing values (if any), encode features,
+   Load the breast cancer dataset, handle missing values, encode features,
    scale/standardize data, and split into train/test sets.
 
 2. **Baseline Models**  
