@@ -1,16 +1,31 @@
-# Breast Cancer Classification – ML Notebook
+# Breast Cancer Diagnosis – ML Pipeline
 
-This project contains a Jupyter Notebook (`BTL_ML.ipynb`) that builds and evaluates
-machine learning models for a binary classification problem (benign vs. malignant tumors).  
-It includes data preprocessing, baseline models, hyperparameter tuning, and
-visual evaluation (confusion matrix, ROC/PR curves, KS statistic, etc.).
+This project builds a machine learning pipeline to classify breast cancer tumors 
+(Benign vs Malignant) using the Wisconsin Breast Cancer dataset.
+
+The workflow includes data preprocessing, model training, evaluation, experiment tracking, 
+and automated execution through a CI/CD pipeline.
 
 ## Technology Stack
-- Language: **Python 3**
-- Environment: **Jupyter Notebook / JupyterLab**
-- Machine Learning: **scikit-learn** (Gradient Boosting, Random Forest)
-- Data & Plotting: **pandas**, **numpy**, **matplotlib**, **seaborn**
-- Containerization: **Docker** (for reproducible setup)
+**Language**
+- Python 3
+
+**Machine Learning**
+- scikit-learn
+- Random Forest
+- Gradient Boosting
+
+**Data Processing & Visualization**
+- pandas
+- numpy
+- matplotlib
+- seaborn
+
+**MLOps & DevOps**
+- GitHub Actions (CI/CD pipeline)
+- Docker (containerized environment)
+- MLflow (experiment tracking)
+- Jupyter Notebook
 
 ## Project structure:
 ```bash
@@ -19,6 +34,9 @@ BTL_ML/
 ├─ README.md
 ├─ .gitignore
 ├─ requirements.txt
+├─ docker-compose.yml
+├── .github/workflows/
+│ └── ml-pipeline.yml # CI/CD workflow
 └─ Dockerfile
 ```
 ## Architecture
@@ -42,54 +60,55 @@ Notebook workflow:
    compare Baseline vs Tuned models, and visualize results via confusion matrix,
    ROC curves, and Precision–Recall curves.
 
-5. **Reproducible Environment with Docker**  
-   A `Dockerfile` and `requirements.txt` are provided so the notebook can be run
-   in an isolated container without manually installing dependencies.
+5. **Experiment Tracking with MLflow**  
+   Machine learning experiments are tracked using MLflow, allowing logging of model parameters, evaluation metrics, and results.  
+   This enables easier comparison between different model configurations and improves reproducibility of experiments.
 
 ## Prerequisites
 
-You can run the notebook using **Docker (recommended)** 
+To run this project locally, you need:
 
+- Docker installed on your system
 
-Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows/macOS)  
-   or Docker Engine on Linux.
+Install **Docker Desktop** (Windows/macOS):  
+https://www.docker.com/products/docker-desktop/
 
-## Instructions
+Or install **Docker Engine** on Linux.
 
-### 1. Clone or download the project
+---
+
+# Instructions
+
+## 1. Clone the repository
 
 ```bash
-cd path/to/your/projects
-# if using git
-git clone <this-repo-url>
-cd BTL_ML
+git clone https://github.com/phucnguyenbao/Breast-Cancer-Diagnosis.git
+cd Breast-Cancer-Diagnosis
 ```
 ### 2. Run with Docker
-#### 2.1 Build image
-In the folder containing Dockerfile and BTL_ML.ipynb:
-```bash
-docker build -t btl-ml .
-```
-#### 2.2 Run container
-Windows – PowerShell:
-```bash
-docker run -it --rm -p 8888:8888 -v "${PWD}:/app" btl-ml
-```
-Windows – Command Prompt (cmd.exe):
-```bash
-docker run -it --rm -p 8888:8888 -v %cd%:/app btl-ml
-```
-Linux / macOS:
-```bash
-docker run -it --rm -p 8888:8888 -v "$(pwd):/app" btl-ml
-```
-This will:
-Map container port 8888 to localhost:8888 on your machine.
+#### 2.1 Build and Start Services
 
+In the project folder (where `docker-compose.yml` is located), run:
 
-Mount the current directory into /app inside the container.
-#### 2.3 Open the notebook
+```bash
+docker compose up --build
+```
+This command will:
+
+Build the Docker image for the Jupyter environment
+
+Start both Jupyter Notebook and MLflow services
+
+Automatically connect the services through the Docker network
+
+#### 2.2 Open the notebook
 Once the container is running, open your browser and go to:
 http://localhost:8888 
 
 Then open BTL_ML.ipynb to run the notebook.
+
+#### 2.3 View MLflow Experiments
+If MLflow logging is enabled, you can view experiment results by opening your browser and go to:
+http://localhost:5000
+
+This interface allows you to view logged parameters, metrics, and compare different experiment runs.
