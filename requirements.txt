@@ -7,3 +7,4 @@ matplotlib
 seaborn
 ucimlrepo
 mlflow
+papermill
